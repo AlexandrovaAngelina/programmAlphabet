@@ -45,20 +45,84 @@ int Get_Quantity_Words(const char *file_name)
 			}
 		}
 	}
-	printf("\ncheck=%d\n",check);
 	fclose(file);
 	return q;
+}
+
+int* Get_Length_Words(const char *file_name,int *arr_length,int quantity_words)
+{
+	int q=0;
+	int length_word=0;
+	FILE *file=NULL;
+	file=fopen(file_name,"rb");
+	if(file==NULL)
+	{
+		return NULL;
+	}
+	arr_length = (int*) calloc (quantity_words,sizeof(int));
+	while(!feof(file))
+	{
+		char temp=0;
+		temp=fgetc(file);
+		if(temp==' ')
+		{
+			arr_length[q]=length_word;
+			length_word = 0;
+			q++;
+		}
+		else
+		{
+			if((temp==',')||(temp==';')||(temp==':'))
+			{
+				arr_length[q]=length_word;
+				length_word = 0;
+				q++;
+				fgetc(file);
+			}
+			else
+			{
+				if((temp=='!')||(temp=='?')||(temp=='.'))
+				{
+					arr_length[q]=length_word;
+					length_word = 0;
+					q++;
+					for(short int i=0;i<3;i++)
+					{
+						temp=fgetc(file);
+						if(temp!='.')
+						{
+							break;
+						}
+					}
+				}
+				else
+				{
+					if(temp!='\n')
+					{
+						length_word++;
+					}
+				}
+			}
+		}
+	}
+	fclose(file);
+	return arr_length;
 }
 
 int Read_File(const char *file_name,char ***note)
 {
 	int quantity_words=0;
+	int *arr_length = NULL;
 	quantity_words=Get_Quantity_Words(file_name);
 	if(quantity_words==-1)
 	{
 		return 1;
 	}
-	printf("\nq=%d\n",quantity_words);
+	arr_length=Get_Length_Words(file_name,arr_length,quantity_words);
+	if(arr_length==NULL)
+	{
+		return 1;
+	}
 	FILE *file=NULL;
 	file=fopen(file_name,"rb");
 	if(file==NULL)
