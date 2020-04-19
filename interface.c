@@ -13,7 +13,8 @@ void Menu()
     printf("0)Exit\n");
 }
 
-int User_Choise()
+int User_Choise(
+        char* file_name, char** note, int* arr_length, int quantity_words)
 {
     int error_flag = 0;
     int key_choise = 0;
@@ -23,22 +24,23 @@ int User_Choise()
         Menu();
         switch (key_choise) {
         case (1): {
-            error_flag = Read_File();
+            error_flag
+                    = Read_File(file_name, &note, &arr_length, &quantity_words);
             sort_flag = false;
             break;
         }
         case (2): {
             if (sort_flag == false) {
-                Sort_Text();
+                Sort_Text(&note, arr_length, quantity_words);
             }
             break;
         }
         case (3): {
-            Print_Text();
+            Print_Text(note, arr_length, quantity_words);
             break;
         }
         case (4): {
-            error_flag = Write_File();
+            error_flag = Write_File(note, arr_length, quantity_words);
             break;
         }
         case (9): {
