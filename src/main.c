@@ -10,6 +10,15 @@ int main()
     int quantity_words = 0;
     int error_flag = 0;
     error_flag = User_Choise(file_name, note, arr_length, quantity_words);
-    printf("error: %d", error_flag);
+    switch (error_flag) {
+    case (-1): {
+        printf("error: File input.txt dont open");
+        break;
+    }
+    case (-2): {
+        printf("error: File output.txt dont open");
+        break;
+    }
+    }
     return 0;
 }
