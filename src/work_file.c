@@ -21,14 +21,15 @@ int Read_File(
         int* arr_length[],
         int* quantity_words)
 {
-    quantity_words = Get_Size_for_Array(file_name, &arr_length, quantity_words);
-    if (quantity_words == NULL) {
-        return 1;
+    *quantity_words
+            = Get_Size_for_Array(file_name, &arr_length, quantity_words);
+    if (quantity_words == -1) {
+        return -1;
     }
     FILE* file = NULL;
     file = fopen(file_name, "rb");
     if (file == NULL) {
-        return 1;
+        return -1;
     }
     *note = (char**)calloc((*quantity_words), sizeof(char*));
     for (short int i = 0; i < (*quantity_words); i++) {
@@ -41,7 +42,7 @@ int Read_File(
     return 0;
 }
 
-int* Get_Size_for_Array(
+int Get_Size_for_Array(
         const char* file_name, int** arr_length[], int* quantity_words)
 {
     int length_word = 0;
@@ -49,7 +50,7 @@ int* Get_Size_for_Array(
     FILE* file = NULL;
     file = fopen(file_name, "rb");
     if (file == NULL) {
-        return NULL;
+        return -1;
     }
     while (!feof(file)) {
         while (Check_Punctuation_Character(temp = getc(file)) != true
@@ -69,5 +70,5 @@ int* Get_Size_for_Array(
         length_word = 1;
     }
     fclose(file);
-    return quantity_words;
+    return *quantity_words;
 }
