@@ -72,3 +72,19 @@ int Get_Size_for_Array(
     fclose(file);
     return *quantity_words;
 }
+
+int Write_File(char** note, int* arr_length, int quantity_words)
+{
+    FILE* file = NULL;
+    file = fopen("output.txt", "wb");
+    if (file == NULL) {
+        return -2;
+    }
+    for (short int i = 0; i < quantity_words; i++) {
+        for (short int j = 0; j < arr_length[i]; j++) {
+            putc(note[i][j], file);
+        }
+        putc('\r', file);
+    }
+    return 0;
+}
