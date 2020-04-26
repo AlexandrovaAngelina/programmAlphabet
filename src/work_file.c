@@ -23,7 +23,7 @@ int Read_File(
 {
     *quantity_words
             = Get_Size_for_Array(file_name, &arr_length, quantity_words);
-    if (quantity_words == -1) {
+    if (*quantity_words == -1) {
         return -1;
     }
     FILE* file = NULL;
@@ -37,6 +37,7 @@ int Read_File(
         for (short int j = 0; j < (*arr_length)[i]; j++) {
             while (((Check_Punctuation_Character((*note)[i][j] = getc(file))))
                    && (!feof(file)))
+                ;
         }
     }
     return 0;

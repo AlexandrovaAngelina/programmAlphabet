@@ -1,5 +1,9 @@
 #include "interface.h"
+#include "print.h"
+#include "sort.h"
+#include "work_file.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -31,7 +35,7 @@ int User_Choise(
         }
         case (2): {
             if (sort_flag == false) {
-                Sort_Text(&note, arr_length, quantity_words);
+                Sort_Text(&note, arr_length, 0, quantity_words);
             }
             break;
         }

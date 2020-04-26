@@ -63,10 +63,10 @@ int Sort_Text(char*** note, int* arr_length, int left_limit, int right_limit)
         }
     }
     if (left_limit < j) {
-        Sort_Array(note, arr_length, left_limit, j - 1);
+        Sort_Text(note, arr_length, left_limit, j - 1);
     }
     if (i < right_limit) {
-        Sort_Array(note, arr_length, i, right_limit - 1);
+        Sort_Text(note, arr_length, i, right_limit - 1);
     }
     return 0;
 }
