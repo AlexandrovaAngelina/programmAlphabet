@@ -77,7 +77,7 @@ int Get_Size_for_Array(
 int Write_File(char** note, int* arr_length, int quantity_words)
 {
     FILE* file = NULL;
-    file = fopen("output.txt", "wb");
+    file = fopen("text/output.txt", "wb");
     if (file == NULL) {
         return -2;
     }

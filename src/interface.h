@@ -3,6 +3,6 @@
 #define INTERFACE_H
 
 void Menu();
-int User_Choise(char*, char**, int*, int);
+int User_Choice(char*, char**, int*, int);
 
 #endif
