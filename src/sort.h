@@ -4,7 +4,7 @@
 
 #include <stdbool.h>
 
-int Sort_Array(char***, int*, int, int);
+int Sort_Text(char***, int*, int, int);
 bool Less(char*, char*, int, int);
 
 #endif
