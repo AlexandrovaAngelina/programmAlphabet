@@ -21,6 +21,7 @@ int Read_File(
         int* arr_length[],
         int* quantity_words)
 {
+    int limit = 0;
     *quantity_words
             = Get_Size_for_Array(file_name, &arr_length, quantity_words);
     if (*quantity_words == -1) {
@@ -36,16 +37,19 @@ int Read_File(
         (*note)[i] = (char*)calloc((*arr_length)[i], sizeof(char));
         for (short int j = 0; j < (*arr_length)[i]; j++) {
             while (((Check_Punctuation_Character((*note)[i][j] = getc(file))))
-                   && (!feof(file)))
-                ;
+                   && (!feof(file)) && limit < SYMBOL_LIMIT_IN_FILE) {
+                limit++;
+            }
         }
     }
+    fclose(file);
     return 0;
 }
 
 int Get_Size_for_Array(
         const char* file_name, int** arr_length[], int* quantity_words)
 {
+    int limit = 0;
     int length_word = 0;
     char temp = '0';
     FILE* file = NULL;
@@ -53,13 +57,16 @@ int Get_Size_for_Array(
     if (file == NULL) {
         return -1;
     }
-    while (!feof(file)) {
+    while ((!feof(file)) && limit < SYMBOL_LIMIT_IN_FILE) {
         while (Check_Punctuation_Character(temp = getc(file)) != true
-               && !feof(file)) {
+               && !feof(file) && limit < SYMBOL_LIMIT_IN_FILE) {
+            limit++;
             length_word++;
         }
-        while (Check_Punctuation_Character(temp = getc(file)))
-            ;
+        while (Check_Punctuation_Character(temp = getc(file))
+               && limit < SYMBOL_LIMIT_IN_FILE) {
+            limit++;
+        }
         *quantity_words = *quantity_words + 1;
         if ((*quantity_words) > 1) {
             **arr_length = (int*)realloc(
@@ -87,5 +94,6 @@ int Write_File(char** note, int* arr_length, int quantity_words)
         }
         putc('\r', file);
     }
+    fclose(file);
     return 0;
 }
