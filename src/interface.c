@@ -9,12 +9,31 @@
 
 void Menu()
 {
-    printf("1)Read from file\n");
+    printf("1)Print text\n");
     printf("2)Sort text\n");
-    printf("3)Print text\n");
-    printf("4)Write in file\n");
+    printf("3)Write in file\n");
     printf("9)Clear screen\n");
     printf("0)Exit\n");
+}
+
+int Check_Correct_Choice(int key_choice)
+{
+    if ((key_choice < EXIT_FROM_PROGRAMM) || (key_choice > CLEAR_SCREEN)) {
+        return INCORECT_CHOICE;
+    }
+    if ((key_choice > WRITE_IN_FILE) && (key_choice < CLEAR_SCREEN)) {
+        return INCORECT_CHOICE;
+    }
+    return key_choice;
+}
+
+char** Free_Note(char** note, int quantity_words)
+{
+    for (short int i = 0; i < quantity_words; i++) {
+        free(note[i]);
+    }
+    free(note);
+    return note;
 }
 
 int User_Choice(
@@ -22,46 +41,46 @@ int User_Choice(
 {
     int error_flag = 0;
     int key_choice = 0;
-    bool sort_flag = true;
+    bool sort_flag = false;
+    error_flag = Read_File(file_name, &note, &arr_length, &quantity_words);
+    if(error_flag == ERROR_INPUT_FILE)
+    {
+        return error_flag;
+    }
     while (1) {
         Menu();
         scanf("%d", &key_choice);
-        switch (key_choice) {
-        case (1): {
-            error_flag
-                    = Read_File(file_name, &note, &arr_length, &quantity_words);
-            sort_flag = false;
-            break;
+        key_choice = Check_Correct_Choice(key_choice);
+        if (key_choice == INCORECT_CHOICE) {
+            MESSEGE_BY_INCORECT_CHOISE;
+            continue;
         }
-        case (2): {
+        switch (key_choice) {
+        case (SORT_TEXT): {
             if (sort_flag == false) {
                 Sort_Text(&note, arr_length, 0, quantity_words);
                 sort_flag = true;
             }
             break;
         }
-        case (3): {
+        case (PRINT_TEXT): {
             Print_Text(note, arr_length, quantity_words);
             break;
         }
-        case (4): {
+        case (WRITE_IN_FILE): {
             error_flag = Write_File(note, arr_length, quantity_words);
             break;
         }
-        case (9): {
+        case (CLEAR_SCREEN): {
             system("clear");
             break;
         }
-        case (0): {
+        case (EXIT_FROM_PROGRAMM): {
+            note = Free_Note(note, quantity_words);
+            free(arr_length);
             return error_flag;
         }
         }
     }
-    for (short int i = 0; i < quantity_words; i++) {
-        free(note[i]);
-    }
-    free(note);
-    free(file_name);
-    free(arr_length);
     return error_flag;
 }

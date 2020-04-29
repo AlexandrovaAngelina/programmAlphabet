@@ -1,4 +1,5 @@
 #include "work_file.h"
+#include "interface.h"
 
 #include <malloc.h>
 #include <stdbool.h>
@@ -24,13 +25,13 @@ int Read_File(
     int limit = 0;
     *quantity_words
             = Get_Size_for_Array(file_name, &arr_length, quantity_words);
-    if (*quantity_words == -1) {
-        return -1;
+    if (*quantity_words == ERROR_INPUT_FILE) {
+        return ERROR_INPUT_FILE;
     }
     FILE* file = NULL;
     file = fopen(file_name, "rb");
     if (file == NULL) {
-        return -1;
+        return ERROR_INPUT_FILE;
     }
     *note = (char**)calloc((*quantity_words), sizeof(char*));
     for (short int i = 0; i < (*quantity_words); i++) {
@@ -55,7 +56,7 @@ int Get_Size_for_Array(
     FILE* file = NULL;
     file = fopen(file_name, "rb");
     if (file == NULL) {
-        return -1;
+        return ERROR_INPUT_FILE;
     }
     while ((!feof(file)) && limit < SYMBOL_LIMIT_IN_FILE) {
         while (Check_Punctuation_Character(temp = getc(file)) != true
@@ -86,7 +87,7 @@ int Write_File(char** note, int* arr_length, int quantity_words)
     FILE* file = NULL;
     file = fopen("text/output.txt", "wb");
     if (file == NULL) {
-        return -2;
+        return ERROR_OUTPUT_FILE;
     }
     for (short int i = 0; i < quantity_words; i++) {
         for (short int j = 0; j < arr_length[i]; j++) {
