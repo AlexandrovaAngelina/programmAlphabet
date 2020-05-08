@@ -4,67 +4,52 @@ CFLAGS =  -c -Wall -Werror -std=c99
 
 FLAGS  =  -Wall -Werror -std=c99
 
-OBJECTS = build/main.o build/interface.o build/work_file.o build/print.o build/sort.o
+OBJECTS = build/src/main.o build/src/interface.o build/src/work_file.o build/src/print.o build/src/sort.o
 
-
+OBJECTS_TEST = build/test/main.o build/test/tests.o build/src/interface.o build/src/work_file.o build/src/sort.o build/src/print.o
 
 .PHONY: clean all bin build default
 
+all: default test
 
+default: bin build bin/key
 
-all: bin build default
+test: bin build bin/key_test
+	bin/key_test
 
+bin/key_test: $(OBJECTS_TEST)
+	$(CXX) $(FLAGS) $(OBJECTS_TEST) -o bin/key_test
 
+build/test/main.o: test/main.c
+	$(CXX) $(CFLAGS) test/main.c -I thirdparty/ -I src/ -o build/test/main.o
 
-default: bin/key
-
-
-
+build/test/tests.o: test/tests.c
+	$(CXX) $(CFLAGS) test/tests.c -I thirdparty/ -I src/ -o build/test/tests.o
 
 bin/key: $(OBJECTS)
+	$(CXX) $(FLAGS) $(OBJECTS) -o bin/key
 
-	$(CXX) $(FLAGS) $(OBJECTS) -o bin/prog
+build/src/main.o: src/main.c 
+	$(CXX) $(CFLAGS) src/main.c -o build/src/main.o 
 
+build/src/interface.o: src/interface.c 
+	$(CXX) $(CFLAGS) src/interface.c -o build/src/interface.o
 
+build/src/work_file.o: src/work_file.c 
+	$(CXX) $(CFLAGS) src/work_file.c -o build/src/work_file.o
 
-build/main.o: src/main.c 
+build/src/print.o: src/print.c 
+	$(CXX) $(CFLAGS) src/print.c -o build/src/print.o
 
-	$(CXX) $(CFLAGS) src/main.c -o build/main.o 
-
-
-
-build/interface.o: src/interface.c 
-
-	$(CXX) $(CFLAGS) src/interface.c -o build/interface.o
-
-
-
-build/work_file.o: src/work_file.c 
-
-	$(CXX) $(CFLAGS) src/work_file.c -o build/work_file.o
-
-
-
-build/print.o: src/print.c 
-
-	$(CXX) $(CFLAGS) src/print.c -o build/print.o
-
-
-
-build/sort.o: src/sort.c 
-
-	$(CXX) $(CFLAGS) src/sort.c -o build/sort.o
-
-
+build/src/sort.o: src/sort.c 
+	$(CXX) $(CFLAGS) src/sort.c -o build/src/sort.o
 
 build:
-
-	mkdir -p build
+	mkdir -p build/src
+	mkdir -p build/test
 
 bin:
-
 	mkdir -p bin 
 
 clean:
-
 	-rm -rf build bin
