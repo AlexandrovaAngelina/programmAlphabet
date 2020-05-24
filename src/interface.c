@@ -57,7 +57,7 @@ int User_Choice(
         switch (key_choice) {
         case (SORT_TEXT): {
             if (sort_flag == false) {
-                Sort_Text(&note, arr_length, 0, quantity_words);
+                Sort_Text(&note, &arr_length, 0, (quantity_words - 1));
                 sort_flag = true;
             }
             break;

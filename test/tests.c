@@ -19,15 +19,15 @@ CTEST(INTERFACE, CHECK_CHOISE_INCORRECT)
     ASSERT_EQUAL(INCORECT_CHOICE, Check_Correct_Choice(10));
 }
 
-CTEST(SORT, LESS)
+CTEST(SORT, COMPARISON)
 {
-    ASSERT_TRUE(Less("aaaa", "bbbb", 4, 4));
-    ASSERT_TRUE(Less("a", "bbbb", 1, 4));
-    ASSERT_TRUE(Less("aaaa", "b", 4, 1));
-    ASSERT_FALSE(Less("aaaa", "aaaa", 4, 4));
-    ASSERT_FALSE(Less("bbbb", "aaaa", 4, 4));
-    ASSERT_FALSE(Less("b", "aaaa", 1, 4));
-    ASSERT_FALSE(Less("bbbb", "a", 4, 1));
+    ASSERT_EQUAL(Comparison("aaaa", "bbbb", 4, 4),LESS);
+    ASSERT_EQUAL(Comparison("a", "bbbb", 1, 4),LESS);
+    ASSERT_EQUAL(Comparison("aaaa", "b", 4, 1),LESS);
+    ASSERT_EQUAL(Comparison("aaaa", "aaaa", 4, 4),EQUALLY);
+    ASSERT_EQUAL(Comparison("bbbb", "aaaa", 4, 4),LARGE);
+    ASSERT_EQUAL(Comparison("b", "aaaa", 1, 4),LARGE);
+    ASSERT_EQUAL(Comparison("bbbb", "a", 4, 1),LARGE);
 }
 
 CTEST(WORK_FILE, CHECK_PUNCTUATION)
