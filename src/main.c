@@ -16,6 +16,10 @@ int main()
     } else {
         if (error_flag == ERROR_OUTPUT_FILE) {
             MESSEGE_BY_OUTPUT_DONT_OPEN;
+        } else {
+            if (error_flag == EMPTY_INPUT_FILE) {
+                MESSEGE_BY_EMPTY_INPUT_FILE;
+            }
         }
     }
     return 0;

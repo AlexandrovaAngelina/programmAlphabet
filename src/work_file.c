@@ -28,8 +28,11 @@ int Read_File(
     if (*quantity_words == ERROR_INPUT_FILE) {
         return ERROR_INPUT_FILE;
     }
+    if (*quantity_words == EMPTY_INPUT_FILE) {
+        return EMPTY_INPUT_FILE;
+    }
     FILE* file = NULL;
-    file = fopen(file_name, "rb");
+    file = fopen(file_name, "r");
     if (file == NULL) {
         return ERROR_INPUT_FILE;
     }
@@ -54,18 +57,24 @@ int Get_Size_for_Array(
     int length_word = 0;
     char temp = '0';
     FILE* file = NULL;
-    file = fopen(file_name, "rb");
+    file = fopen(file_name, "r");
     if (file == NULL) {
         return ERROR_INPUT_FILE;
     }
-    while ((!feof(file)) && limit < SYMBOL_LIMIT_IN_FILE) {
-        while (Check_Punctuation_Character(temp = getc(file)) != true
-               && !feof(file) && limit < SYMBOL_LIMIT_IN_FILE) {
+    fseek(file, 0, SEEK_END);
+    if (ftell(file) <= 0) {
+        return EMPTY_INPUT_FILE;
+    } else {
+        fseek(file, 0, SEEK_SET);
+    }
+    while ((!feof(file)) && (limit < SYMBOL_LIMIT_IN_FILE)) {
+        while ((Check_Punctuation_Character(temp = getc(file)) != true)
+               && (!feof(file)) && (limit < SYMBOL_LIMIT_IN_FILE)) {
             limit++;
             length_word++;
         }
-        while (Check_Punctuation_Character(temp = getc(file))
-               && limit < SYMBOL_LIMIT_IN_FILE) {
+        while (Check_Punctuation_Character(temp = getc(file)) && (!feof(file))
+               && (limit < SYMBOL_LIMIT_IN_FILE)) {
             limit++;
         }
         *quantity_words = *quantity_words + 1;
@@ -85,7 +94,7 @@ int Get_Size_for_Array(
 int Write_File(char** note, int* arr_length, int quantity_words)
 {
     FILE* file = NULL;
-    file = fopen("text/output.txt", "wb");
+    file = fopen("text/output.txt", "w");
     if (file == NULL) {
         return ERROR_OUTPUT_FILE;
     }

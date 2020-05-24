@@ -43,7 +43,7 @@ int User_Choice(
     int key_choice = 0;
     bool sort_flag = false;
     error_flag = Read_File(file_name, &note, &arr_length, &quantity_words);
-    if (error_flag == ERROR_INPUT_FILE) {
+    if ((error_flag == ERROR_INPUT_FILE) || (error_flag == EMPTY_INPUT_FILE)) {
         return error_flag;
     }
     while (1) {
