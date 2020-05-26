@@ -47,7 +47,6 @@ int Read_File(
             limit++;
         }
     }
-    printf("Kol-vo = %d", *quantity_words);
     fclose(file);
     return 0;
 }

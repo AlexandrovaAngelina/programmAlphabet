@@ -21,19 +21,18 @@ CTEST(INTERFACE, CHECK_CHOISE_INCORRECT)
 
 CTEST(SORT, COMPARISON)
 {
-    ASSERT_EQUAL(Comparison("aaaa", "bbbb", 4, 4),LESS);
-    ASSERT_EQUAL(Comparison("a", "bbbb", 1, 4),LESS);
-    ASSERT_EQUAL(Comparison("aaaa", "b", 4, 1),LESS);
-    ASSERT_EQUAL(Comparison("aaaa", "aaaa", 4, 4),EQUALLY);
-    ASSERT_EQUAL(Comparison("bbbb", "aaaa", 4, 4),LARGE);
-    ASSERT_EQUAL(Comparison("b", "aaaa", 1, 4),LARGE);
-    ASSERT_EQUAL(Comparison("bbbb", "a", 4, 1),LARGE);
+    ASSERT_EQUAL(Comparison("aaaa", "bbbb", 4, 4), LESS);
+    ASSERT_EQUAL(Comparison("a", "bbbb", 1, 4), LESS);
+    ASSERT_EQUAL(Comparison("aaaa", "b", 4, 1), LESS);
+    ASSERT_EQUAL(Comparison("aaaa", "aaaa", 4, 4), EQUALLY);
+    ASSERT_EQUAL(Comparison("bbbb", "aaaa", 4, 4), LARGE);
+    ASSERT_EQUAL(Comparison("b", "aaaa", 1, 4), LARGE);
+    ASSERT_EQUAL(Comparison("bbbb", "a", 4, 1), LARGE);
 }
 
 CTEST(WORK_FILE, CHECK_ENGLISH_SYMBOL)
 {
-    for(short int i = 0; i < QUANTITY_SYMBOL_IN_ENGLISH; i++)
-    {
+    for (short int i = 0; i < QUANTITY_SYMBOL_IN_ENGLISH; i++) {
         ASSERT_TRUE(Check_English_Symbol('a' + i));
         ASSERT_TRUE(Check_English_Symbol('A' + i));
     }
@@ -41,5 +40,5 @@ CTEST(WORK_FILE, CHECK_ENGLISH_SYMBOL)
 
 CTEST(WORK_FILE, ERROR_OPEN_INPUT_FILE)
 {
-    ASSERT_EQUAL(ERROR_INPUT_FILE,Get_Size_for_Array(NULL, NULL, NULL));
+    ASSERT_EQUAL(ERROR_INPUT_FILE, Get_Size_for_Array(NULL, NULL, NULL));
 }
