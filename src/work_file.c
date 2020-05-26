@@ -6,12 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-bool Check_Punctuation_Character(char temp)
+bool Check_English_Symbol(char symbol)
 {
-    if ((temp == ' ') || (temp == '\n') || (temp == '\r') || (temp == '!')
-        || (temp == '?') || (temp == ',') || (temp == '.') || (temp == ':')
-        || (temp == ';')) {
-        return true;
+    for (short int i = 0; i < QUANTITY_SYMBOL_IN_ENGLISH; i++) {
+        if ((symbol == 'a' + i) || (symbol == 'A' + i)) {
+            return true;
+        }
     }
     return false;
 }
@@ -28,8 +28,11 @@ int Read_File(
     if (*quantity_words == ERROR_INPUT_FILE) {
         return ERROR_INPUT_FILE;
     }
+    if (*quantity_words == EMPTY_INPUT_FILE) {
+        return EMPTY_INPUT_FILE;
+    }
     FILE* file = NULL;
-    file = fopen(file_name, "rb");
+    file = fopen(file_name, "r");
     if (file == NULL) {
         return ERROR_INPUT_FILE;
     }
@@ -37,12 +40,14 @@ int Read_File(
     for (short int i = 0; i < (*quantity_words); i++) {
         (*note)[i] = (char*)calloc((*arr_length)[i], sizeof(char));
         for (short int j = 0; j < (*arr_length)[i]; j++) {
-            while (((Check_Punctuation_Character((*note)[i][j] = getc(file))))
-                   && (!feof(file)) && limit < SYMBOL_LIMIT_IN_FILE) {
+            while ((!Check_English_Symbol((*note)[i][j] = getc(file))) //
+                   && (!feof(file)) && (limit < SYMBOL_LIMIT_IN_FILE)) {
                 limit++;
             }
+            limit++;
         }
     }
+    printf("Kol-vo = %d", *quantity_words);
     fclose(file);
     return 0;
 }
@@ -54,20 +59,28 @@ int Get_Size_for_Array(
     int length_word = 0;
     char temp = '0';
     FILE* file = NULL;
-    file = fopen(file_name, "rb");
+    file = fopen(file_name, "r");
     if (file == NULL) {
         return ERROR_INPUT_FILE;
     }
-    while ((!feof(file)) && limit < SYMBOL_LIMIT_IN_FILE) {
-        while (Check_Punctuation_Character(temp = getc(file)) != true
-               && !feof(file) && limit < SYMBOL_LIMIT_IN_FILE) {
+    fseek(file, 0, SEEK_END);
+    if (ftell(file) <= 0) {
+        return EMPTY_INPUT_FILE;
+    } else {
+        fseek(file, 0, SEEK_SET);
+    }
+    while ((!feof(file)) && (limit < SYMBOL_LIMIT_IN_FILE)) {
+        while ((Check_English_Symbol(temp = getc(file))) && (!feof(file))
+               && (limit < SYMBOL_LIMIT_IN_FILE)) {
             limit++;
             length_word++;
         }
-        while (Check_Punctuation_Character(temp = getc(file))
-               && limit < SYMBOL_LIMIT_IN_FILE) {
+        limit++;
+        while ((!Check_English_Symbol(temp = getc(file))) && (!feof(file))
+               && (limit < SYMBOL_LIMIT_IN_FILE)) {
             limit++;
         }
+        limit++;
         *quantity_words = *quantity_words + 1;
         if ((*quantity_words) > 1) {
             **arr_length = (int*)realloc(
@@ -85,7 +98,7 @@ int Get_Size_for_Array(
 int Write_File(char** note, int* arr_length, int quantity_words)
 {
     FILE* file = NULL;
-    file = fopen("text/output.txt", "wb");
+    file = fopen("text/output.txt", "w");
     if (file == NULL) {
         return ERROR_OUTPUT_FILE;
     }

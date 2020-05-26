@@ -10,9 +10,12 @@
 #define ERROR_INPUT_FILE -1
 #define ERROR_OUTPUT_FILE -2
 #define INCORECT_CHOICE -3
+#define EMPTY_INPUT_FILE -4
 
-#define MESSEGE_BY_INPUT_DONT_OPEN printf("error: File input.txt dont open");
-#define MESSEGE_BY_OUTPUT_DONT_OPEN printf("error: File output.txt dont open");
+#define MESSEGE_BY_INPUT_DONT_OPEN printf("error: File input.txt dont open\n");
+#define MESSEGE_BY_EMPTY_INPUT_FILE printf("error: File input.txt is empty\n");
+#define MESSEGE_BY_OUTPUT_DONT_OPEN \
+    printf("error: File output.txt dont open\n");
 #define MESSEGE_BY_INCORECT_CHOISE \
     printf("\nerror: Please enter 1 or 2 or 3 or 9 or 0\n");
 

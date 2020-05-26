@@ -2,9 +2,11 @@
 
 #define SORT_H
 
-#include <stdbool.h>
+#define LESS -5
+#define EQUALLY 0
+#define LARGE 5
 
-int Sort_Text(char***, int*, int, int);
-bool Less(char*, char*, int, int);
+int Comparison(char*, char*, int, int);
+int Sort_Text(char***, int**, int, int);
 
 #endif
