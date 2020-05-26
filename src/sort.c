@@ -44,10 +44,18 @@ int Sort_Text(char*** note, int** arr_length, int left_limit, int right_limit)
     host_item = (*note)[mediana];
     while (i <= j) {
         while (Comparison(
-                (*note)[i], host_item, (*arr_length)[i], (*arr_length)[mediana]) == LESS) {
+                       (*note)[i],
+                       host_item,
+                       (*arr_length)[i],
+                       (*arr_length)[mediana])
+               == LESS) {
             i++;
         }
-        while ((Comparison((*note)[j], host_item, (*arr_length)[j], (*arr_length)[mediana]))
+        while ((Comparison(
+                       (*note)[j],
+                       host_item,
+                       (*arr_length)[j],
+                       (*arr_length)[mediana]))
                == LARGE) {
             j--;
         }

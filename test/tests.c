@@ -30,19 +30,13 @@ CTEST(SORT, COMPARISON)
     ASSERT_EQUAL(Comparison("bbbb", "a", 4, 1),LARGE);
 }
 
-CTEST(WORK_FILE, CHECK_PUNCTUATION)
+CTEST(WORK_FILE, CHECK_ENGLISH_SYMBOL)
 {
-    ASSERT_TRUE(Check_Punctuation_Character(' '));
-    ASSERT_TRUE(Check_Punctuation_Character('\n'));
-    ASSERT_TRUE(Check_Punctuation_Character('\r'));
-    ASSERT_TRUE(Check_Punctuation_Character('!'));
-    ASSERT_TRUE(Check_Punctuation_Character('?'));
-    ASSERT_TRUE(Check_Punctuation_Character(','));
-    ASSERT_TRUE(Check_Punctuation_Character('.'));
-    ASSERT_TRUE(Check_Punctuation_Character(':'));
-    ASSERT_TRUE(Check_Punctuation_Character(';'));
-    ASSERT_FALSE(Check_Punctuation_Character('a'));
-    ASSERT_FALSE(Check_Punctuation_Character('1'));
+    for(short int i = 0; i < QUANTITY_SYMBOL_IN_ENGLISH; i++)
+    {
+        ASSERT_TRUE(Check_English_Symbol('a' + i));
+        ASSERT_TRUE(Check_English_Symbol('A' + i));
+    }
 }
 
 CTEST(WORK_FILE, ERROR_OPEN_INPUT_FILE)

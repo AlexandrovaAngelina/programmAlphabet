@@ -6,12 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-bool Check_Punctuation_Character(char temp)
+bool Check_English_Symbol(char symbol)
 {
-    if ((temp == ' ') || (temp == '\n') || (temp == '\r') || (temp == '!')
-        || (temp == '?') || (temp == ',') || (temp == '.') || (temp == ':')
-        || (temp == ';')) {
-        return true;
+    for (short int i = 0; i < QUANTITY_SYMBOL_IN_ENGLISH; i++) {
+        if ((symbol == 'a' + i) || (symbol == 'A' + i)) {
+            return true;
+        }
     }
     return false;
 }
@@ -40,12 +40,14 @@ int Read_File(
     for (short int i = 0; i < (*quantity_words); i++) {
         (*note)[i] = (char*)calloc((*arr_length)[i], sizeof(char));
         for (short int j = 0; j < (*arr_length)[i]; j++) {
-            while (((Check_Punctuation_Character((*note)[i][j] = getc(file))))
-                   && (!feof(file)) && limit < SYMBOL_LIMIT_IN_FILE) {
+            while ((!Check_English_Symbol((*note)[i][j] = getc(file))) //
+                   && (!feof(file)) && (limit < SYMBOL_LIMIT_IN_FILE)) {
                 limit++;
             }
+            limit++;
         }
     }
+    printf("Kol-vo = %d", *quantity_words);
     fclose(file);
     return 0;
 }
@@ -68,15 +70,17 @@ int Get_Size_for_Array(
         fseek(file, 0, SEEK_SET);
     }
     while ((!feof(file)) && (limit < SYMBOL_LIMIT_IN_FILE)) {
-        while ((Check_Punctuation_Character(temp = getc(file)) != true)
-               && (!feof(file)) && (limit < SYMBOL_LIMIT_IN_FILE)) {
+        while ((Check_English_Symbol(temp = getc(file))) && (!feof(file))
+               && (limit < SYMBOL_LIMIT_IN_FILE)) {
             limit++;
             length_word++;
         }
-        while (Check_Punctuation_Character(temp = getc(file)) && (!feof(file))
+        limit++;
+        while ((!Check_English_Symbol(temp = getc(file))) && (!feof(file))
                && (limit < SYMBOL_LIMIT_IN_FILE)) {
             limit++;
         }
+        limit++;
         *quantity_words = *quantity_words + 1;
         if ((*quantity_words) > 1) {
             **arr_length = (int*)realloc(
