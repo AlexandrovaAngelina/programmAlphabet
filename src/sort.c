@@ -9,7 +9,7 @@ int Comparison(char* a, char* b, int a_length, int b_length)
     int i = 0;
     int j = 0;
     while (1) {
-        if ((i < a_length) && (j < a_length)) {
+        if ((i < a_length) && (j < b_length)) {
             if (a[i] < b[j]) {
                 return LESS;
             }
